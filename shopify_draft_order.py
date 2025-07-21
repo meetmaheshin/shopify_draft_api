@@ -73,12 +73,16 @@ def upload_image():
         return jsonify({"error": "No selected file"}), 400
 
     filename = secure_filename(file.filename)
-    unique_name = f"static/user_{os.urandom(4).hex()}_{filename}"
-    file_path = os.path.join(app.root_path, unique_name)
+    static_folder = os.path.join(app.root_path, "static")
+    os.makedirs(static_folder, exist_ok=True)  # ✅ Ensure static/ folder exists
+
+    unique_name = f"user_{os.urandom(4).hex()}_{filename}"
+    file_path = os.path.join(static_folder, unique_name)
     file.save(file_path)
 
     print(f"📸 Image uploaded: {file_path}")
-    return jsonify({"image_url": "/" + unique_name})
+    return jsonify({ "image_url": "/static/" + unique_name })  # ✅ Updated path
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
