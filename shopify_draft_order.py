@@ -42,7 +42,7 @@ def create_draft_order():
                     ]
                 }
             ],
-            "note": "Created by AI T-Shirt Designer"
+            "note": f"Created by AI T-Shirt Designer\nImage: {image_url}"
         }
     }
 
