@@ -59,6 +59,26 @@ def create_draft_order():
         print("Error:", response.status_code)
         print(response.text)
         return jsonify({"error": "Failed to create draft order"}), 400
+    
+
+from werkzeug.utils import secure_filename
+
+@app.route('/upload-image', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    filename = secure_filename(file.filename)
+    unique_name = f"static/user_{os.urandom(4).hex()}_{filename}"
+    file_path = os.path.join(app.root_path, unique_name)
+    file.save(file_path)
+
+    print(f"📸 Image uploaded: {file_path}")
+    return jsonify({"image_url": "/" + unique_name})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
