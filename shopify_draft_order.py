@@ -81,7 +81,7 @@ def upload_image():
     file.save(file_path)
 
     print(f"📸 Image uploaded: {file_path}")
-    return jsonify({ "image_url": "/static/" + unique_name })  # ✅ Updated path
+    return jsonify({ "image_url": f"https://shopify-draft-api.onrender.com/static/{unique_name}" })  # ✅ Updated path
 
 
 if __name__ == '__main__':
