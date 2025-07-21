@@ -21,7 +21,10 @@ HEADERS = {
 @app.route('/create-draft-order', methods=['POST'])
 def create_draft_order():
     data = request.json
-    image_url = data.get("image_url")
+    image_path = data.get("image_url", "").lstrip("/")  # remove leading slash just in case
+    frontend_domain = "https://ai-tshirt-frontend.onrender.com"  # ← replace this with your real frontend domain
+    image_url = f"{frontend_domain}/{image_path}"
+
     size = data.get("size")
     color = data.get("color")
 
