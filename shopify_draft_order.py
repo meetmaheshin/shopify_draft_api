@@ -21,9 +21,14 @@ HEADERS = {
 @app.route('/create-draft-order', methods=['POST'])
 def create_draft_order():
     data = request.json
-    image_path = data.get("image_url", "").lstrip("/")  # remove leading slash just in case
-    frontend_domain = "https://ai-tshirt-frontend.onrender.com"  # ← replace this with your real frontend domain
-    image_url = f"{frontend_domain}/{image_path}"
+    image_url = data.get("image_url", "")
+
+    # # If it's a relative path, prefix it
+    # if not image_url.startswith("http"):
+    #     frontend_domain = "https://ai-tshirt-frontend.onrender.com"
+    #     image_url = data.get("image_url", "")
+   
+
 
     size = data.get("size")
     color = data.get("color")
@@ -81,7 +86,7 @@ def upload_image():
     file.save(file_path)
 
     print(f"📸 Image uploaded: {file_path}")
-    return jsonify({ "image_url": f"https://shopify-draft-api.onrender.com/static/{unique_name}" })  # ✅ Updated path
+    return jsonify({ "image_url": f"http://164.52.194.163:5001/static/{unique_name}" })  # ✅ Updated path
 
 
 if __name__ == '__main__':
